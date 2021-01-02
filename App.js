@@ -10,6 +10,8 @@ import RegisterScreen from './components/auth/Register'
 import LandingScreen from './components/auth/Landing';
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
+import AddScreen from './components/main/Add';
+import SaveScreen from './components/main/Save';
 
 // redux
 import { Provider } from 'react-redux';
@@ -21,6 +23,8 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 // firebase
 import * as firebase from 'firebase';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBACmOEyKEZVl9WSjABXe3a3P1yoVM4Ozg",
@@ -86,9 +90,13 @@ export class App extends Component {
 
     return (
       <Provider store={store}>
-         <Stack.Navigator initialRouteName="Landing">
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Landing">
             <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}/>
+            <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation}/>
           </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     )
   }
