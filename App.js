@@ -22,6 +22,8 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 // firebase
 import * as firebase from 'firebase';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBACmOEyKEZVl9WSjABXe3a3P1yoVM4Ozg",
