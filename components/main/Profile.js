@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Image, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 
 function Profile(props) {
+    
     const { currentUser, posts } = props;
     return (
         <View style={styles.container}>
