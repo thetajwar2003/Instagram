@@ -1,5 +1,11 @@
-import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE } from '../constants/index'
+import { USER_STATE_CHANGE, USER_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, CLEAR_DATA } from '../constants/index'
 import firebase from 'firebase';
+
+export function clearData() {
+    return ((distpatch) => {
+        dispatch({type: CLEAR_DATA})
+    });
+}
 
 export function fetchUser(){
     return ((dispatch) => {
@@ -50,13 +56,13 @@ export function fetchUserFollowers(){
                 })
                 dispatch({ type: USER_FOLLOWING_STATE_CHANGE, following });
                 for(let i = 0; i < following.length; i++){
-                    dispatch(fetchUsersData(following[i]));
+                    dispatch(fetchUsersData(following[i], true));
                 }
             })
     })
 }
 
-export function fetchUsersData(uid) {
+export function fetchUsersData(uid, getPosts) {
     return ((dispatch, getstate) => {
         const found = getState().usersState.users.some(element => element.uid === uid)
         
@@ -70,12 +76,14 @@ export function fetchUsersData(uid) {
                     let user = snapshot.data();
                     user.uid = snapshot.id;
                     dispatch({type: USERS_DATA_STATE_CHANGE, user});
-                    dispatch(fetchUsersFollowingPosts(user.uid));
                 }
                 else{
                     console.log("doesn't exist")
                 }
             })
+            if(getPosts) {
+                dispatch(fetchUsersFollowingPosts(uid));
+            }
         }
     })
 }

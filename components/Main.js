@@ -7,7 +7,7 @@ import firebase from 'firebase';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchUser, fetchUserPosts, fetchUserFollowers } from '../redux/actions/index';
+import { fetchUser, fetchUserPosts, fetchUserFollowers, clearData } from '../redux/actions/index';
 import FeedScreen from './main/Feed';
 import ProfileScreen from './main/Profile';
 import SearchScreen from './main/Search';
@@ -20,6 +20,7 @@ const EmptyScreen = () => {
 
 export class Main extends Component {
     componentDidMount(){
+        this.props.clearData();
         this.props.fetchUser();
         this.props.fetchUserPosts();
         this.props.fetchUserFollowers();
@@ -91,6 +92,6 @@ export class Main extends Component {
 const mapStateToProps = (store) => ({
     currentUser: store.userState.currentUser
 })
-const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts, fetchUserFollowers }, dispatch);
+const mapDispatchProps = (dispatch) => bindActionCreators({ clearData, fetchUser, fetchUserPosts, fetchUserFollowers }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Main);
